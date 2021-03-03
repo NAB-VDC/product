@@ -1,0 +1,8 @@
+spring:
+  application:
+    name: product
+  cloud:
+    config:
+      uri: http://localhost:8888
+      username: 'config'
+      password: 't0ps3cr3t'
