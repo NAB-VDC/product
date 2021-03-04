@@ -1,5 +1,6 @@
 package com.bank.product.client.fallback;
 
+import org.springframework.context.annotation.Profile;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 
@@ -8,6 +9,7 @@ import com.bank.product.dto.SmsDTO;
 import com.bank.product.dto.VoucherDTO;
 
 @Component
+@Profile("!test")
 public class CoreClientFallback implements CoreClient{
 
 	@Override

@@ -90,14 +90,19 @@ public class VoucherServiceImpl implements VoucherService {
 	}
 	
 	private VoucherDTO doGenerate(String phone, boolean unHappyCase) {
-		final ResponseEntity<VoucherDTO> voucher = coreClient.generate();
-		if (HttpStatus.OK.equals(voucher.getStatusCode()) && unHappyCase == false) {
-			final Voucher voucherEntity = objMapper.toVoucher(voucher.getBody());
-			voucherEntity.setPhone(phone);
-			voucherRepository.save(voucherEntity);
-			return voucher.getBody();
-		} else {
-			throw new InternalErrorException("Internal error");
+		try {
+			final ResponseEntity<VoucherDTO> voucher = coreClient.generate();
+			if (HttpStatus.OK.equals(voucher.getStatusCode()) && unHappyCase == false) {
+				final Voucher voucherEntity = objMapper.toVoucher(voucher.getBody());
+				voucherEntity.setPhone(phone);
+				voucherRepository.save(voucherEntity);
+				return voucher.getBody();
+			} else {
+				throw new InternalErrorException("Internal error");
+			}
+		} catch (Exception e) {
+			logger.error("Can not call Core service.", e);
+			throw e;
 		}
 	}
 
